@@ -1,0 +1,4 @@
+export const transfers = [
+  { id:1,transferNumber:"TRF-2026-0018",sourceWarehouseId:1,destinationWarehouseId:2,source:"Nairobi Main Warehouse",destination:"CBD Shop",items:[{variantId:111,sku:"BOS-BAT18",name:"Bosch 18V 5Ah Battery",quantity:10}],totalUnits:10,createdBy:"David Ouma",createdDate:"2026-10-24T11:35:00+03:00",status:"RECEIVED" },
+  { id:2,transferNumber:"TRF-2026-0019",sourceWarehouseId:1,destinationWarehouseId:3,source:"Nairobi Main Warehouse",destination:"Mombasa Warehouse",items:[{variantId:101,sku:"BOS-GSB18V",name:"Bosch GSB 18V Professional Cordless Impact Drill",quantity:5},{variantId:102,sku:"MAK-GA9020",name:"Makita GA9020 230mm Heavy Duty Angle Grinder",quantity:4}],totalUnits:9,createdBy:"David Ouma",createdDate:"2026-10-25T08:30:00+03:00",status:"IN_TRANSIT" },
+];

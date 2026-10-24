@@ -1,0 +1,2 @@
+import formStyles from "@/styles/Forms.module.css";
+export default function Select({ label, id, options, className = "", ...props }) { return <div className={`${formStyles.field} ${className}`}><label htmlFor={id}>{label}</label><select id={id} {...props}>{options.map((option) => <option key={option.value ?? option} value={option.value ?? option}>{option.label ?? option}</option>)}</select></div>; }

@@ -1,0 +1,4 @@
+import { api } from "./apiClient";
+import { auditLogs } from "@/mocks/audit";
+const useMocks=process.env.NEXT_PUBLIC_USE_MOCKS!=="false";
+export const auditService={getAuditLogs(params={}){if(!useMocks)return api.get(`/audit-logs?${new URLSearchParams(params)}`);const {search="",date="",user="",role="",action="",entity="",page=0,size=20}=params;const query=search.toLowerCase();const rows=auditLogs.filter((item)=>(!query||`${item.record} ${item.user} ${item.description}`.toLowerCase().includes(query))&&(!date||item.timestamp.startsWith(date))&&(!user||item.user===user)&&(!role||item.role===role)&&(!action||item.action===action)&&(!entity||item.entity===entity));return Promise.resolve({content:rows.slice(Number(page)*Number(size),(Number(page)+1)*Number(size)),page:Number(page),size:Number(size),totalElements:rows.length,totalPages:Math.max(1,Math.ceil(rows.length/Number(size)))});}};

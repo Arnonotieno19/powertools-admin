@@ -1,0 +1,12 @@
+import { api } from "./apiClient";
+import { orders, orderItems, returns } from "@/mocks/orders";
+const useMocks = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
+const paginate = (rows, page = 0, size = 10) => ({ content: rows.slice(page * size, (page + 1) * size), page, size, totalElements: rows.length, totalPages: Math.max(1, Math.ceil(rows.length / size)) });
+export const orderService = {
+  getOrders(params = {}) { if (!useMocks) return api.get(`/admin/orders?${new URLSearchParams(params)}`); const { search = "", status = "", page = 0, size = 10 } = params; const query = search.toLowerCase(); const rows = orders.filter((order) => (!query || `${order.orderNumber} ${order.customer} ${order.phone}`.toLowerCase().includes(query)) && (!status || order.status === status)); return Promise.resolve(paginate(rows, Number(page), Number(size))); },
+  getOrder: (id) => useMocks ? Promise.resolve((() => { const order=orders.find((o) => String(o.id) === String(id)); return order ? { ...order, orderItems } : null; })()) : api.get(`/admin/orders/${id}`),
+  updateStatus(id, status, note) { if (!useMocks) return api.patch(`/admin/orders/${id}/status`, { status, note }); const order=orders.find((item)=>String(item.id)===String(id)); if(order){order.status=status;order.timeline.push({stage:status,timestamp:new Date().toISOString(),staff:"Current Staff"});if(note)order.notes.push({id:Date.now(),author:"Current Staff",timestamp:new Date().toLocaleString("en-KE"),message:note});} return Promise.resolve(order); },
+  addNote(id, message, author) { if (!useMocks) return api.post(`/admin/orders/${id}/notes`, { message }); const order=orders.find((item)=>String(item.id)===String(id)); const note={id:Date.now(),author,timestamp:new Date().toLocaleString("en-KE"),message}; order?.notes.push(note); return Promise.resolve(note); },
+  getReturns(params = {}) { if (!useMocks) return api.get(`/admin/returns?${new URLSearchParams(params)}`); const { search="",status="",page=0,size=10 }=params; const query=search.toLowerCase(); const rows=returns.filter((item)=>(!query||`${item.orderNumber} ${item.customer} ${item.product}`.toLowerCase().includes(query))&&(!status||item.status===status)); return Promise.resolve(paginate(rows, Number(page), Number(size))); },
+  updateReturnStatus(id, status) { if (!useMocks) return api.patch(`/admin/returns/${id}`, { status }); const item=returns.find((entry)=>entry.id===Number(id)); if(item)item.status=status; return Promise.resolve(item); },
+};

@@ -5,12 +5,7 @@ const nextConfig = {
     agentFeedback: true,
   },
   turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
+    root: process.cwd(),
   },
   reactStrictMode: true,
 };

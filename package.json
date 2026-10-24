@@ -11,7 +11,8 @@
   "dependencies": {
     "next": "16.4.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "zustand": "file:../../../../../../../tmp/zustand-5.0.15.tgz"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

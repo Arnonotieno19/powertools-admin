@@ -1,0 +1,6 @@
+export const wholesaleApplications = [
+  { id:1,business:"Rift Hardware Ltd",registrationNumber:"PVT-RHT92K",kraPin:"P051234567K",contact:"Peter Kibet",email:"peter@rifthardware.co.ke",phone:"0722 881 402",location:"Nairobi",expectedMonthly:450000,submitted:"2026-10-25T09:30:00+03:00",status:"PENDING_APPROVAL",pricingTier:null },
+  { id:2,business:"Prime Build Supplies",registrationNumber:"PVT-PBS84M",kraPin:"P052345678L",contact:"Lucy Wanjiru",email:"lucy@primebuild.co.ke",phone:"0714 204 882",location:"Kiambu",expectedMonthly:280000,submitted:"2026-10-24T14:20:00+03:00",status:"PENDING_APPROVAL",pricingTier:null },
+  { id:3,business:"Coast Tool Centre",registrationNumber:"PVT-CTC11A",kraPin:"P053456789M",contact:"Ali Hassan",email:"ali@coasttools.co.ke",phone:"0708 451 990",location:"Mombasa",expectedMonthly:620000,submitted:"2026-10-23T10:00:00+03:00",status:"APPROVED",pricingTier:"BUSINESS_PRO" },
+  { id:4,business:"Western Workshop Supplies",registrationNumber:"PVT-WWS72Q",kraPin:"P054567890N",contact:"Brian Ochieng",email:"brian@westernworkshop.co.ke",phone:"0790 818 201",location:"Kisumu",expectedMonthly:190000,submitted:"2026-10-22T11:15:00+03:00",status:"SUSPENDED",pricingTier:"STANDARD_WHOLESALE" },
+];

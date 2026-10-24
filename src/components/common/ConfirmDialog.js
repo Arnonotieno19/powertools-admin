@@ -1,0 +1,3 @@
+import Button from "./Button";
+import styles from "@/styles/Common.module.css";
+export default function ConfirmDialog({ open, title, message, confirmLabel = "Confirm", variant = "danger", busy = false, children, onConfirm, onCancel }) { if (!open) return null; return <div className={styles.dialogOverlay} role="presentation"><div className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title"><h3 id="confirm-dialog-title">{title}</h3><p>{message}</p>{children}<div className={styles.dialogActions}><Button variant="outline" onClick={onCancel} disabled={busy}>Cancel</Button><Button variant={variant} onClick={onConfirm} disabled={busy}>{busy?"Working…":confirmLabel}</Button></div></div></div>; }
