@@ -1,0 +1,12 @@
+import { useState } from "react";
+import Button from "@/components/common/Button";
+import Input from "@/components/common/Input";
+import Select from "@/components/common/Select";
+import styles from "@/styles/Forms.module.css";
+const roles=["ADMIN","INVENTORY_STAFF","ORDER_STAFF"];
+export default function StaffUserForm({initialValue={},onSubmit,submitLabel="Create Staff User",busy=false}){
+  const [form,setForm]=useState({firstName:"",lastName:"",email:"",phone:"",role:"ORDER_STAFF",temporaryPassword:"",active:true,...initialValue});const [error,setError]=useState("");
+  const change=(event)=>setForm((current)=>({...current,[event.target.name]:event.target.type==="checkbox"?event.target.checked:event.target.value}));
+  async function submit(event){event.preventDefault();if(!form.firstName.trim()||!form.lastName.trim()||!form.email.trim()){setError("First name, last name and email are required.");return}if(!initialValue.id&&form.temporaryPassword.length<8){setError("Temporary password must contain at least 8 characters.");return}setError("");await onSubmit(form)}
+  return <form className={styles.form} onSubmit={submit}>{error&&<div className={styles.danger}>{error}</div>}<div className={styles.grid}><Input id="firstName" name="firstName" label="First Name" value={form.firstName} onChange={change} required/><Input id="lastName" name="lastName" label="Last Name" value={form.lastName} onChange={change} required/><Input id="email" name="email" type="email" label="Email" value={form.email} onChange={change} required disabled={initialValue.role==="OWNER"}/><Input id="phone" name="phone" label="Phone" value={form.phone} onChange={change}/><Select id="role" name="role" label="Role" value={form.role} onChange={change} options={roles} disabled={initialValue.role==="OWNER"}/>{!initialValue.id&&<Input id="temporaryPassword" name="temporaryPassword" type="password" label="Temporary Password" value={form.temporaryPassword} onChange={change} required/>}</div><label className={styles.checkbox}><input type="checkbox" name="active" checked={form.active} onChange={change}/> Active staff account</label><div className={styles.notice}>Owner accounts cannot be created or reassigned through normal staff management.</div><div className={styles.formActions}><Button type="submit" disabled={busy||initialValue.role==="OWNER"}>{busy?"Saving…":submitLabel}</Button><Button href="/users" variant="outline">Cancel</Button></div></form>
+}
