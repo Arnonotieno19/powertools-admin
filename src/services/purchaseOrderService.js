@@ -4,7 +4,7 @@ import { suppliers } from "@/mocks/suppliers";
 import { products } from "@/mocks/products";
 import { inventory,warehouses } from "@/mocks/inventory";
 import { useAuthStore } from "@/store/authStore";
-const useMocks=process.env.NEXT_PUBLIC_USE_MOCKS!=="false";
+const useMocks=false;
 const decorate=(order)=>({...order,warehouse:warehouses.find((item)=>item.id===order.warehouseId),totals:calculatePurchaseOrderTotals(order),receivedUnits:order.items.reduce((sum,item)=>sum+item.previouslyReceived,0),orderedUnits:order.items.reduce((sum,item)=>sum+item.orderedQuantity,0)});
 const paginate=(rows,page=0,size=10)=>({content:rows.slice(page*size,(page+1)*size),page,size,totalElements:rows.length,totalPages:Math.max(1,Math.ceil(rows.length/size))});
 export const purchaseOrderService={

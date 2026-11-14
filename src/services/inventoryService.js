@@ -5,7 +5,7 @@ import { suppliers } from "@/mocks/suppliers";
 import { purchaseOrders } from "@/mocks/purchaseOrders";
 import { stockReceipts, createMockReceipt } from "@/mocks/stockReceipts";
 import { useAuthStore } from "@/store/authStore";
-const useMocks = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
+const useMocks = false;
 const paginate = (rows, page = 0, size = 10) => ({ content: rows.slice(page * size, (page + 1) * size), page, size, totalElements: rows.length, totalPages: Math.max(1, Math.ceil(rows.length / size)) });
 export const inventoryService = {
   getInventory(params = {}) {

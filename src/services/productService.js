@@ -1,6 +1,6 @@
 import { api } from "./apiClient";
 import { products, productBrands, productCategories } from "@/mocks/products";
-const useMocks = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
+const useMocks = false;
 const paginate = (rows, page = 0, size = 10) => ({ content: rows.slice(page * size, (page + 1) * size), page, size, totalElements: rows.length, totalPages: Math.max(1, Math.ceil(rows.length / size)) });
 export const productService = {
   getProducts: (params = {}) => {
@@ -17,4 +17,7 @@ export const productService = {
   getProductOptions: () => useMocks ? Promise.resolve({ brands:productBrands, categories:productCategories }) : api.get("/admin/products/options"),
   createProduct(payload) { if (!useMocks) return api.post("/admin/products", payload); const created={ id:Date.now(),productId:Date.now(),variantId:Date.now()+1,stock:0,image:null,...payload }; products.push(created); return Promise.resolve(created); },
   updateProduct(id, payload) { if (!useMocks) return api.put(`/admin/products/${id}`, payload); const index=products.findIndex((item)=>String(item.id)===String(id)); const updated={...products[index],...payload,id:products[index]?.id??id}; if(index>=0)products[index]=updated; return Promise.resolve(updated); },
+  uploadImage(id, file, { altText = "", primaryImage = false } = {}) { const body = new FormData(); body.append("file", file); body.append("altText", altText); body.append("primaryImage", String(primaryImage)); return api.post(`/admin/products/${id}/images`, body); },
+  addImageUrl(id, payload) { return api.post(`/admin/products/${id}/images/url`, payload); },
+  deleteImage(id, imageId) { return api.delete(`/admin/products/${id}/images/${imageId}`); },
 };

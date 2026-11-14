@@ -4,7 +4,7 @@ import { transfers } from "@/mocks/transfers";
 import { inventory,movements } from "@/mocks/inventory";
 import { products } from "@/mocks/products";
 import { useAuthStore } from "@/store/authStore";
-const useMocks=process.env.NEXT_PUBLIC_USE_MOCKS!=="false";
+const useMocks=false;
 const paginate=(rows,page=0,size=10)=>({content:rows.slice(page*size,(page+1)*size),page,size,totalElements:rows.length,totalPages:Math.max(1,Math.ceil(rows.length/size))});
 const summary=(warehouse)=>{const rows=inventory.filter((item)=>item.warehouse.id===warehouse.id);return {...warehouse,totalSkus:rows.length,availableUnits:rows.reduce((sum,item)=>sum+item.available,0),reservedUnits:rows.reduce((sum,item)=>sum+item.reserved,0),damagedUnits:rows.reduce((sum,item)=>sum+item.damaged,0),lowStock:rows.filter((item)=>item.status==="LOW_STOCK").length,outOfStock:rows.filter((item)=>item.status==="OUT_OF_STOCK").length}};
 const ensureStock=(variantId,warehouse)=>{const product=products.find((item)=>item.variantId===variantId);let row=inventory.find((item)=>item.variantId===variantId&&item.warehouse.id===warehouse.id);if(!row){row={id:Date.now()+variantId+warehouse.id,productId:product.id,variantId,sku:product.sku,product:product.name,category:product.category,warehouse,physicalStock:0,reserved:0,available:0,damaged:0,reorderLevel:8,status:"OUT_OF_STOCK"};inventory.push(row);}return row;};

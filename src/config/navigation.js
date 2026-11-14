@@ -4,8 +4,8 @@ export const navigation = [
   { section:"Administration",label:"Dashboard",href:"/",icon:"⌂",permission:P.DASHBOARD_VIEW },
 
   { section:"Catalog",label:"Products",href:"/products",icon:"▦",permission:P.PRODUCT_VIEW },
-  { label:"Categories",href:"/products?view=categories",icon:"☷",permission:P.PRODUCT_UPDATE },
-  { label:"Brands",href:"/products?view=brands",icon:"◆",permission:P.PRODUCT_UPDATE },
+  { label:"Categories",href:"/categories",icon:"☷",permission:P.PRODUCT_UPDATE },
+  { label:"Brands",href:"/brands",icon:"◆",permission:P.PRODUCT_UPDATE },
 
   { section:"Inventory",label:"Inventory",href:"/inventory",icon:"📦",permission:P.INVENTORY_VIEW,badge:7 },
   { label:"Stock In",href:"/inventory/stock-in",icon:"↓",permission:P.INVENTORY_RECEIVE },
@@ -30,7 +30,7 @@ export const navigation = [
   { label:"Purchase Orders",href:"/purchase-orders",icon:"🧾",permission:P.PURCHASE_ORDER_VIEW },
 
   { section:"Insights",label:"Reports",href:"/reports",icon:"📊",permission:P.REPORT_OPERATIONAL },
-  { label:"Payments",href:"/reports?tab=Payments",icon:"💳",permission:P.PAYMENT_VIEW },
+  { label:"Payments",href:"/payments",icon:"💳",permission:P.PAYMENT_VIEW },
 
   { section:"System",label:"Users",href:"/users",icon:"👥",permission:P.USER_MANAGE },
   { label:"Roles",href:"/roles",icon:"🔐",permission:P.ROLE_MANAGE },
