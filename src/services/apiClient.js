@@ -1,6 +1,12 @@
 import { useAuthStore } from "@/store/authStore";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:50090/api/v1";
+const configuredApiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const productionApiUrl = configuredApiBaseUrl ? new URL(configuredApiBaseUrl) : null;
+const localApiHosts = ["localhost", "127.0.0.1", "::1", "0.0.0.0"];
+if (process.env.NODE_ENV === "production" && (!productionApiUrl || productionApiUrl.protocol !== "https:" || localApiHosts.includes(productionApiUrl.hostname) || productionApiUrl.hostname.endsWith(".localhost"))) {
+  throw new Error("Set NEXT_PUBLIC_API_BASE_URL to the public HTTPS production API before building.");
+}
+export const API_BASE_URL = (configuredApiBaseUrl || "http://localhost:50090/api/v1").replace(/\/+$/, "");
 
 async function parseResponse(response) {
   const contentType = response.headers.get("content-type");
@@ -31,6 +37,16 @@ export async function apiFetch(endpoint, { method = "GET", body, headers = {}, a
   });
   if (response.status === 401 && typeof window !== "undefined") useAuthStore.getState().logout();
   return parseResponse(response);
+}
+
+export async function apiFetchBlob(endpoint, { headers = {}, auth = true, ...options } = {}) {
+  const token = auth ? useAuthStore.getState().accessToken : null;
+  const requestHeaders = { Accept: "application/octet-stream", ...headers };
+  if (token) requestHeaders.Authorization = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, method: "GET", headers: requestHeaders });
+  if (response.status === 401 && typeof window !== "undefined") useAuthStore.getState().logout();
+  if (!response.ok) await parseResponse(response);
+  return response.blob();
 }
 
 export const api = {
